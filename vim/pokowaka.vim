@@ -28,37 +28,29 @@ inoremap jk <esc>
 "
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Bundle "https://github.com/Yggdroot/indentLine"
-Bundle "https://github.com/bronson/vim-trailing-whitespace"
-Bundle "https://github.com/easymotion/vim-easymotion"
-Bundle "https://github.com/flazz/vim-colorschemes"
-Bundle "https://github.com/godlygeek/tabular"
-Bundle "https://github.com/majutsushi/tagbar"
-Bundle "https://github.com/mileszs/ack.vim"
-Bundle "https://github.com/pokowaka/vim-plugin-random-colorscheme-picker.git"
-Bundle "https://github.com/qpkorr/vim-bufkill"
-Bundle "https://github.com/rking/ag.vim"
-Bundle "https://github.com/scrooloose/nerdtree"
-Bundle "https://github.com/scrooloose/syntastic"
-Bundle "https://github.com/tpope/vim-commentary"
-Bundle "https://github.com/junegunn/fzf.vim"
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-call vundle#end()
+call plug#begin()
+Plug 'Yggdroot/indentLine'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'easymotion/vim-easymotion'
+Plug 'flazz/vim-colorschemes'
+Plug 'godlygeek/tabular'
+Plug 'junegunn/fzf',  { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'majutsushi/tagbar'
+Plug 'mileszs/ack.vim'
+Plug 'pokowaka/vim-plugin-random-colorscheme-picker'
+Plug 'qpkorr/vim-bufkill'
+Plug 'scrooloose/nerdtree',  { 'on':  'NERDTreeToggle' }
+Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-commentary'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'rhysd/vim-clang-format'
+call plug#end()
 
 " Disable syntax highlighting for large files
 autocmd BufWinEnter * if line2byte(line("$") + 1) > 1000000 | syntax clear | endif
 
-" Setup the ag hack:w
-"
-let g:ackprg = 'ag --vimgrep --smart-case'
-cnoreabbrev ag Ack
-cnoreabbrev aG Ack
-cnoreabbrev Ag Ack
-cnoreabbrev AG Ack
 
 let g:airline_powerline_fonts = 1
 let g:airline_theme='powerlineish'
@@ -70,7 +62,30 @@ set expandtab
 set autoindent
 set number
 
+" Lets make fzf easy to use
+nnoremap <leader>p :History<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>t :GFiles<CR>
+
+" Let's use ripgrep
+
+" --column: Show column number
+" --line-number: Show line number
+" --no-heading: Do not show file headings in results
+" --fixed-strings: Search term as a literal string
+" --ignore-case: Case insensitive search
+" --no-ignore: Do not respect .gitignore, etc...
+" --hidden: Search hidden files and folders
+" --follow: Follow symlinks
+" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+" --color: Search color options
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+
 autocmd BufNewFile,BufRead *.shi set syntax=sh
+set grepprg=rg\ --vimgrep
+set undodir=~/.vim/.undo//
+set backupdir=~/.vim/.backup//
+set directory=~/.vim/.swp//
 
 " Turn plugins on.
 filetype plugin indent on
