@@ -45,7 +45,6 @@ Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-commentary'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'rhysd/vim-clang-format'
 call plug#end()
 
 " Disable syntax highlighting for large files
@@ -65,7 +64,7 @@ set number
 " Lets make fzf easy to use
 nnoremap <leader>p :History<CR>
 nnoremap <leader>b :Buffers<CR>
-nnoremap <leader>t :GFiles<CR>
+nnoremap <leader>t :Files<CR>
 
 " Let's use ripgrep
 
@@ -83,9 +82,6 @@ command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-h
 
 autocmd BufNewFile,BufRead *.shi set syntax=sh
 set grepprg=rg\ --vimgrep
-set undodir=~/.vim/.undo//
-set backupdir=~/.vim/.backup//
-set directory=~/.vim/.swp//
 
 " Turn plugins on.
 filetype plugin indent on
