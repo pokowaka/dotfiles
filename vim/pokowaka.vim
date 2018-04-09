@@ -19,7 +19,7 @@ set undofile                    " Saves undo history across sessions.
 set viewoptions=cursor,folds    " Save cursor position and folds.
 
 " Make hidden characters look nice when shown.
-set listchars=tab:»·,trail:·,eol:¶,extends:»,precedes:«
+set list listchars=tab:»·,trail:·,eol:¶,extends:»,precedes:«
 
 " use jk to escape
 inoremap jk <esc>
@@ -29,6 +29,7 @@ inoremap jk <esc>
 
 " set the runtime path to include Vundle and initialize
 call plug#begin()
+Plug 'heavenshell/vim-pydocstring'
 Plug 'Yggdroot/indentLine'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'easymotion/vim-easymotion'
@@ -43,6 +44,7 @@ Plug 'qpkorr/vim-bufkill'
 Plug 'scrooloose/nerdtree',  { 'on':  'NERDTreeToggle' }
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'rhysd/vim-clang-format'
@@ -51,10 +53,8 @@ call plug#end()
 " Disable syntax highlighting for large files
 autocmd BufWinEnter * if line2byte(line("$") + 1) > 1000000 | syntax clear | endif
 
-
 let g:airline_powerline_fonts = 1
 let g:airline_theme='powerlineish'
-
 
 set tabstop=4
 set shiftwidth=4
@@ -85,9 +85,19 @@ autocmd BufNewFile,BufRead *.shi set syntax=sh
 set grepprg=rg\ --vimgrep
 
 " Backup nonsense
-set undodir=~/.vim/.undo//
-set backupdir=~/.vim/.backup//
-set directory=~/.vim/.swp//
+set undodir=~/.vim/.undo//,/tmp
+set backupdir=~/.vim/.backup//,/tmp
+set directory=~/.vim/.swp//,/tmp
+
 " Turn plugins on.
 filetype plugin indent on
 syntax enable
+
+" Sensible settings for different types
+autocmd FileType c,cpp setlocal shiftwidth=4 tabstop=4
+
+" In a makefile a tab shouldn't be a space
+autocmd FileType make setlocal shiftwidth=4 tabstop=4 noexpandtab
+
+" Set the font so the airline theme actually works.
+set guifont=Meslo\ LG\ S\ for\ Powerline\ 10
