@@ -29,25 +29,25 @@ inoremap jk <esc>
 
 " set the runtime path to include Vundle and initialize
 call plug#begin()
-Plug 'heavenshell/vim-pydocstring'
 Plug 'Yggdroot/indentLine'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'easymotion/vim-easymotion'
 Plug 'flazz/vim-colorschemes'
 Plug 'godlygeek/tabular'
+Plug 'heavenshell/vim-pydocstring'
 Plug 'junegunn/fzf',  { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'pokowaka/vim-plugin-random-colorscheme-picker'
 Plug 'qpkorr/vim-bufkill'
+Plug 'rhysd/vim-clang-format'
 Plug 'scrooloose/nerdtree',  { 'on':  'NERDTreeToggle' }
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'rhysd/vim-clang-format'
 call plug#end()
 
 " Disable syntax highlighting for large files
@@ -93,8 +93,15 @@ set directory=~/.vim/.swp//,/tmp
 filetype plugin indent on
 syntax enable
 
-" Sensible settings for different types
-autocmd FileType c,cpp setlocal shiftwidth=4 tabstop=4
+
+" No whitespace please.
+autocmd BufWritePre * FixWhitespace
+
+" Setup clang format to always do its magic
+autocmd FileType c,cpp,h,hpp setlocal shiftwidth=4 tabstop=4
+autocmd FileType c,cpp,cc,h,hpp ClangFormatAutoEnable
+nmap <Leader>C :ClangFormatAutoToggle
+
 
 " In a makefile a tab shouldn't be a space
 autocmd FileType make setlocal shiftwidth=4 tabstop=4 noexpandtab
