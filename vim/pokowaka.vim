@@ -99,8 +99,8 @@ autocmd BufWritePre * FixWhitespace
 
 " Setup clang format to always do its magic
 autocmd FileType c,cpp,h,hpp setlocal shiftwidth=4 tabstop=4 expandtab
-autocmd FileType c,cpp,cc,h,hpp ClangFormatAutoEnable
-nmap <Leader>C :ClangFormatAutoToggle
+" autocmd FileType c,cpp,cc,h,hpp ClangFormatAutoEnable
+" nmap <Leader>C :ClangFormatAutoToggle
 
 " In a makefile a tab shouldn't be a space
 autocmd FileType make setlocal shiftwidth=4 tabstop=4 noexpandtab
